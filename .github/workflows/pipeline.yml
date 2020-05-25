@@ -71,7 +71,9 @@ jobs:
       run: chmod +x ./gradlew
     - name: Migate tracker-database
       run: |
-        cf login -a "$CF_API_URL" -o "$CF_ORG" -s "$CF_SPACE" -u "$CF_USERNAME" -p "$CF_PASSWORD"
+        cf api "$CF_API_URL"
+        cf auth
+        cf target -o "$CF_ORG" -s "$CF_SPACE"
         scripts/migrate-databases.sh pal-tracker .
       env:
         CF_API_URL: ${{ secrets.CF_API_URL }}
